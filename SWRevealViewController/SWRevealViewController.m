@@ -945,7 +945,17 @@ const int FrontViewPositionNone = 0xff;
 
 - (IBAction)revealToggle:(id)sender
 {    
-    [self revealToggleAnimated:YES];
+    NSString * language = [[NSLocale preferredLanguages] objectAtIndex:0];
+    if (floor(NSFoundationVersionNumber) > NSFoundationVersionNumber_iOS_8_4) {
+        if ([[[language substringWithRange:NSMakeRange(0, 2)] lowercaseString] isEqualToString:@"ar"] ||
+            [[[language substringWithRange:NSMakeRange(0, 2)] lowercaseString] isEqualToString:@"rtl"]) {
+            [self rightRevealToggleAnimated:YES];
+        } else {
+            [self revealToggleAnimated:YES];
+        }
+    } else {
+        [self revealToggleAnimated:YES];
+    }
 }
 
 
