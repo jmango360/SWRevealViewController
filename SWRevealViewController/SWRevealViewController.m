@@ -841,9 +841,15 @@ const int FrontViewPositionNone = 0xff;
 - (void)revealToggleAnimated:(BOOL)animated
 {
     FrontViewPosition toggledFrontViewPosition = FrontViewPositionLeft;
-    if (_frontViewPosition <= FrontViewPositionLeft)
-        toggledFrontViewPosition = FrontViewPositionRight;
-    
+    if (self.usingRTLLayout) {
+        if (_frontViewPosition >= FrontViewPositionLeft) {
+            toggledFrontViewPosition = FrontViewPositionLeftSide;
+        }
+    } else {
+        if (_frontViewPosition <= FrontViewPositionLeft) {
+            toggledFrontViewPosition = FrontViewPositionRight;
+        }
+    }
     [self setFrontViewPosition:toggledFrontViewPosition animated:animated];
 }
 
@@ -851,9 +857,15 @@ const int FrontViewPositionNone = 0xff;
 - (void)rightRevealToggleAnimated:(BOOL)animated
 {
     FrontViewPosition toggledFrontViewPosition = FrontViewPositionLeft;
-    if (_frontViewPosition >= FrontViewPositionLeft)
-        toggledFrontViewPosition = FrontViewPositionLeftSide;
-    
+    if (self.usingRTLLayout) {
+        if (_frontViewPosition <= FrontViewPositionLeft) {
+            toggledFrontViewPosition = FrontViewPositionRight;
+        }
+    } else {
+        if (_frontViewPosition >= FrontViewPositionLeft) {
+            toggledFrontViewPosition = FrontViewPositionLeftSide;
+        }
+    }
     [self setFrontViewPosition:toggledFrontViewPosition animated:animated];
 }
 
@@ -945,17 +957,7 @@ const int FrontViewPositionNone = 0xff;
 
 - (IBAction)revealToggle:(id)sender
 {    
-    NSString * language = [[NSLocale preferredLanguages] objectAtIndex:0];
-    if (floor(NSFoundationVersionNumber) > NSFoundationVersionNumber_iOS_8_4) {
-        if ([[[language substringWithRange:NSMakeRange(0, 2)] lowercaseString] isEqualToString:@"ar"] ||
-            [[[language substringWithRange:NSMakeRange(0, 2)] lowercaseString] isEqualToString:@"rtl"]) {
-            [self rightRevealToggleAnimated:YES];
-        } else {
-            [self revealToggleAnimated:YES];
-        }
-    } else {
-        [self revealToggleAnimated:YES];
-    }
+    [self revealToggleAnimated:YES];
 }
 
 

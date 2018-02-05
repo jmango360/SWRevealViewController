@@ -313,6 +313,9 @@ typedef NS_ENUM(NSInteger, SWRevealToggleAnimationType)
 // Delegate
 @property (nonatomic,weak) id<SWRevealViewControllerDelegate> delegate;
 
+/*Support Forced RTL Layout for SWReveal*/
+@property (assign) BOOL usingRTLLayout;
+
 @end
 
 
